@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+#define ll long long int
+#define endl "\n"
+using namespace std;
+int main() {
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        int arr[n+5];
+        for(int i=0;i<n;i++){
+            cin>>arr[i];
+        }
+        
+        int cnt=count(arr,arr+n,0);
+        vector<int>vect;
+        for(int i=0;i<n;i++){
+            bitset<10>b;
+            b.set();
+            b[i]=0;
+
+            int temp=1;
+            int max_speed=arr[i];
+           for(int j=0;j<i;j++){
+               if(arr[j]>arr[i]){
+                   b[j]=0;
+                   temp++;
+                   max_speed=max(arr[j],max_speed);
+               }
+           }
+           for(int j=i+1;j<n;j++){
+               if(arr[j]<max_speed){
+                   temp++;
+                   b[j]=0;
+                   for(int k=0;k<i;k++){
+                       if(b[k]==1 && arr[k]>arr[j]){
+                           b[k]=0;
+                           temp++;
+                       }
+                   }
+               }
+           }
+           vect.push_back(temp);
+        }
+        if(cnt==n){
+            cout<<1<<" "<<1<<endl;
+        }
+        else{
+                cout<<*min_element(vect.begin(),vect.end())<<" "<<*max_element(vect.begin(),vect.end())<<endl;
+        }
+        
+
+    }
+}
